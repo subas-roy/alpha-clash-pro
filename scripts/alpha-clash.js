@@ -1,15 +1,9 @@
-// function play(){
-//     // step-1: hide the home screen
-//     const homeScreeen = document.getElementById('home-screen')
-//     homeScreeen.classList.add('hidden')
-
-//     // step-2: show the playground
-//     const playgroundSection = document.getElementById('play-ground')
-//     playgroundSection.classList.remove('hidden')
-// }
-
 function handleKeyboardKeyUpEvent(event){
     const playerPressed = event.key;
+    // stop the game if player pressed 'Esc'
+    if(playerPressed === 'Escape'){
+        gameOver();
+    }
     // get the expected to press
     const currentAlphabetElement = document.getElementById('current-alphabet');
     const currentAlphabet = currentAlphabetElement.innerText;
@@ -22,17 +16,6 @@ function handleKeyboardKeyUpEvent(event){
         const currentScore = getTextElementValueById('current-score');
         const updatedScore = currentScore + 1;
         setTextElementValueById('current-score', updatedScore);
-        // -----------------------
-        // update score
-        // 1. get the current score
-        // const currentScoreElement = document.getElementById('current-score');
-        // const currentScoreText = currentScoreElement.innerText;
-        // const currentScore = parseInt(currentScoreText);
-        // 2. increase the score by 1
-        // const newScore = currentScore + 1;
-        // 3. show the updated score
-        // currentScoreElement.innerText = newScore;
-        // ----------------------------
         // start a new round
         removeBackgroundColorById(expectedAlphabet)
         continueGame();
@@ -44,16 +27,6 @@ function handleKeyboardKeyUpEvent(event){
         if(updatedLife === 0){
             gameOver();
         }
-        // ------------------------
-        // 1. get the current life numner
-        // const currentLifeElement = document.getElementById('current-life');
-        // const currentLifeText = currentLifeElement.innerText;
-        // const currentLife = parseInt(currentLifeText);
-        // 2. decrease the life
-        // const newLife = currentLife - 1;
-        // 3. display the life count
-        // currentLifeElement.innerText = newLife;
-        // -----------------------------
     }
 }
 document.addEventListener('keyup', handleKeyboardKeyUpEvent);
@@ -83,4 +56,9 @@ function play(){
 function gameOver(){
     hideElementById('play-ground')
     showElementById('final-score')
+    const lastScore = getTextElementValueById('current-score');
+    setTextElementValueById('last-score', lastScore)
+    // clear the last selected alphabet highlight
+    const currentAlphabet = getElementTextById('current-alphabet');
+    removeBackgroundColorById(currentAlphabet);
 }
